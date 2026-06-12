@@ -7,7 +7,7 @@
 // still bumped each release so a new service worker fully refreshes the shell
 // on activation; the background revalidation is the safety net if it isn't.
 
-const CACHE_VERSION = 'parthograph-v1.2.0';
+const CACHE_VERSION = 'parthograph-v1.3.0';
 
 const SHELL = [
   './',

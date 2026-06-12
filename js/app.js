@@ -2,7 +2,7 @@
 // and the heartbeat tick that re-checks schedules and time-based alerts for
 // every labouring woman — the "who needs me now" engine behind the ward board.
 
-import { h, clear, beep, toast } from './ui.js';
+import { h, clear, beep, toast, eatDate, APP_TZ } from './ui.js';
 import { t } from './i18n.js';
 import { S, initStore, bus, savePatient } from './store.js';
 import { getProtocol, dueList, isLabouring } from './protocol.js';
@@ -83,8 +83,8 @@ function updateClock(el) {
   const now = new Date();
   el.innerHTML = '';
   el.append(
-    now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    S.settings.ethiopianDates ? h('span', { class: 'ec' }, formatEthiopic(now, S.settings.lang)) : '',
+    now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: APP_TZ }),
+    S.settings.ethiopianDates ? h('span', { class: 'ec' }, formatEthiopic(eatDate(now), S.settings.lang)) : '',
   );
 }
 

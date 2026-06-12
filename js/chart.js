@@ -8,6 +8,7 @@
 // LCG mode draws per-centimetre "progress limit" windows instead.
 
 import { getProtocol, exams, timeReachedCurrentDilatation, LIMITS } from './protocol.js';
+import { APP_TZ } from './ui.js';
 
 const PXH = 64;        // pixels per hour
 const LEFT = 118;      // label gutter
@@ -64,7 +65,7 @@ export function renderChart(patient, settings) {
       s += `<line x1="${half}" y1="${SEC.fhr.y}" x2="${half}" y2="${SEC.support.y + SEC.support.h}" stroke="#f0f5f3" stroke-width="1"/>`;
     }
     const clock = new Date(+anchor + hr * 3600000);
-    const hh = String(clock.getHours()).padStart(2, '0') + ':' + String(clock.getMinutes()).padStart(2, '0');
+    const hh = clock.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: APP_TZ });
     s += `<text x="${gx + 2}" y="${SEC.header.y + 10}" font-size="9" fill="#51635e" ${FONT}>${hr}h</text>`;
     s += `<text x="${gx + 2}" y="${SEC.header.y + 21}" font-size="8" fill="#8aa19a" ${FONT}>${hh}</text>`;
   }

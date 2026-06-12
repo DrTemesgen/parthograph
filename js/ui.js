@@ -94,16 +94,36 @@ export function beep(kind = 'due') {
 
 // ----------------------------------------------------------- formatting ----
 
+// All displayed and entered times are pinned to East Africa Time (Addis Ababa,
+// UTC+3, no daylight saving) so the labour record reads the same regardless of
+// the tablet's own timezone setting.
+export const APP_TZ = 'Africa/Addis_Ababa';
+export const APP_TZ_OFFSET = '+03:00';
+
+function eatParts(d) {
+  const parts = new Intl.DateTimeFormat('en-CA', {
+    timeZone: APP_TZ, year: 'numeric', month: '2-digit', day: '2-digit',
+    hour: '2-digit', minute: '2-digit', hour12: false,
+  }).formatToParts(d);
+  const g = t => parts.find(x => x.type === t).value;
+  let hh = g('hour'); if (hh === '24') hh = '00'; // some engines emit 24 at midnight
+  return { y: g('year'), mo: g('month'), d: g('day'), hh, mi: g('minute') };
+}
+
+/** A Date whose LOCAL y/m/d equal the Addis-Ababa date — for calendar conversion. */
+export function eatDate(d = new Date()) {
+  const p = eatParts(d);
+  return new Date(+p.y, +p.mo - 1, +p.d);
+}
+
 export function fmtTime(iso) {
   if (!iso) return '—';
-  const d = new Date(iso);
-  return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  return new Date(iso).toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: APP_TZ });
 }
 
 export function fmtDT(iso) {
   if (!iso) return '—';
-  const d = new Date(iso);
-  return d.toLocaleDateString([], { month: 'short', day: 'numeric' }) + ' ' + fmtTime(iso);
+  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: APP_TZ }) + ' ' + fmtTime(iso);
 }
 
 export function timeAgo(iso, now = new Date()) {
@@ -127,12 +147,13 @@ export function minutesAgoISO(min) {
 
 /** ISO string for a datetime-local input value, and back. */
 export function isoToLocalInput(iso) {
-  const d = iso ? new Date(iso) : new Date();
-  const p = n => String(n).padStart(2, '0');
-  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`;
+  const p = eatParts(iso ? new Date(iso) : new Date());
+  return `${p.y}-${p.mo}-${p.d}T${p.hh}:${p.mi}`;
 }
 export function localInputToISO(v) {
-  return v ? new Date(v).toISOString() : null;
+  if (!v) return null;
+  const withSecs = v.length === 16 ? v + ':00' : v; // datetime-local has no seconds
+  return new Date(withSecs + APP_TZ_OFFSET).toISOString();
 }
 
 // ---------------------------------------------------- reusable widgets -----
