@@ -194,7 +194,7 @@ export function openEmergencyModal(p) {
     body.append(
       h('h2', null, '🚨 ' + t('emergency')),
       h('p', { class: 'muted' }, 'Tap the emergency — immediate actions will be shown and recorded.'),
-      EMERGENCIES.map(e => h('button', { class: 'btn big danger', style: 'margin-bottom:8px', onclick: () => detail(e) }, e.label)),
+      ...EMERGENCIES.map(e => h('button', { class: 'btn big danger', style: 'margin-bottom:8px', onclick: () => detail(e) }, e.label)),
       h('button', { class: 'btn ghost big', onclick: () => close() }, t('cancel')),
     );
   }
