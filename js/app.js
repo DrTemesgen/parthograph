@@ -46,11 +46,16 @@ function render() {
   const clockEl = h('div', { class: 'clock' });
   updateClock(clockEl);
 
+  // tapping the logo or the title always returns to the ward board (home) —
+  // the starting point where the clinician picks a woman or starts a new one.
+  const goHome = () => { if (location.hash.replace(/^#\/?/, '')) location.hash = '#/'; else render(); };
+
   app.append(h('header', { class: 'topbar no-print' },
     r.view !== 'dashboard'
-      ? h('button', { class: 'btn-back', onclick: () => history.length > 1 ? history.back() : (location.hash = '#/') }, '‹')
-      : h('span', { style: 'font-size:1.5rem' }, '🤰'),
-    h('h1', null, titleFor(r)),
+      ? h('button', { class: 'btn-back', title: t('back'), 'aria-label': t('back'), onclick: () => history.length > 1 ? history.back() : (location.hash = '#/') }, '‹')
+      : null,
+    h('button', { class: 'btn-home', title: t('dashboard'), 'aria-label': t('dashboard'), onclick: goHome }, '🤰'),
+    h('h1', { class: 'brand-title', title: t('dashboard'), onclick: goHome }, titleFor(r)),
     clockEl,
   ));
 
