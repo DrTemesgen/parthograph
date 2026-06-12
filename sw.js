@@ -1,7 +1,13 @@
-// sw.js — service worker: full offline support (cache-first app shell).
-// Bump CACHE_VERSION on every release so clients pick up new files.
+// sw.js — service worker: offline support with automatic updates.
+//
+// Strategy: stale-while-revalidate for same-origin GETs. We serve the cached
+// copy instantly (fast, works offline — essential for low-connectivity wards)
+// AND fetch a fresh copy in the background to update the cache, so the NEXT
+// load picks up new code without any manual cache-busting. CACHE_VERSION is
+// still bumped each release so a new service worker fully refreshes the shell
+// on activation; the background revalidation is the safety net if it isn't.
 
-const CACHE_VERSION = 'parthograph-v1.0.0';
+const CACHE_VERSION = 'parthograph-v1.2.0';
 
 const SHELL = [
   './',
@@ -31,14 +37,25 @@ self.addEventListener('activate', e => {
 
 self.addEventListener('fetch', e => {
   if (e.request.method !== 'GET') return;
-  e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).then(res => {
-      // opportunistically cache same-origin responses
-      if (res.ok && new URL(e.request.url).origin === location.origin) {
-        const copy = res.clone();
-        caches.open(CACHE_VERSION).then(c => c.put(e.request, copy));
-      }
+  const url = new URL(e.request.url);
+  if (url.origin !== location.origin) return; // let cross-origin requests go straight to network
+
+  e.respondWith((async () => {
+    const cache = await caches.open(CACHE_VERSION);
+    const cached = await cache.match(e.request);
+
+    // background revalidation: fetch fresh, update cache for next time
+    const networkUpdate = fetch(e.request).then(res => {
+      if (res && res.ok) cache.put(e.request, res.clone());
       return res;
-    }).catch(() => caches.match('./index.html'))),
-  );
+    }).catch(() => null);
+
+    if (cached) {
+      e.waitUntil(networkUpdate); // keep the SW alive while it refreshes the cache
+      return cached;
+    }
+    // not cached yet → wait for network; offline fallback to the app shell
+    const res = await networkUpdate;
+    return res || (await cache.match('./index.html'));
+  })());
 });

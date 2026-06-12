@@ -254,6 +254,14 @@ table.entries th { color: var(--c-ink-soft); font-size: .8rem; }
 .empty-state { text-align: center; color: var(--c-ink-soft); padding: 40px 10px; }
 .empty-state .ico { font-size: 3rem; }
 
+.support-note {
+  text-align: center; color: var(--c-ink-soft); font-size: .92rem;
+  max-width: 540px; margin: 30px auto 8px; padding: 16px 14px;
+  border-top: 1px solid var(--c-line); line-height: 1.5;
+}
+.support-note a { color: var(--c-primary); font-weight: 700; text-decoration: none; }
+.support-note a:active { text-decoration: underline; }
+
 /* ---------- print (referral note / summary) ---------- */
 @media print {
   body { background: #fff; }

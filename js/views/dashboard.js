@@ -31,6 +31,7 @@ export function renderDashboard() {
       h('button', { class: 'btn big', onclick: () => { location.hash = '#/new'; } }, '＋ ' + t('new_admission')),
       h('button', { class: 'btn ghost', style: 'margin-top:10px', onclick: () => seedDemoPatient() }, 'Load a demo case (for training/evaluation)'),
     ));
+    page.append(supportFooter());
     return page;
   }
 
@@ -42,8 +43,21 @@ export function renderDashboard() {
     page.append(h('h2', { style: 'margin:18px 0 10px' }, 'Recent (48 h)'));
     for (const p of recent) page.append(patientCard(p, now));
   }
+  page.append(supportFooter());
   page.append(h('button', { class: 'fab', title: t('new_admission'), onclick: () => { location.hash = '#/new'; } }, '＋'));
   return page;
+}
+
+// Hard-coded support / implementation contact, shown on the home (ward board).
+function supportFooter() {
+  return h('div', { class: 'support-note no-print' },
+    h('span', null, '🤝 For support or implementation, reach out to '),
+    h('a', {
+      href: 'https://www.linkedin.com/in/dr-temesgen-endalew/',
+      target: '_blank', rel: 'noopener noreferrer',
+    }, 'Dr Temesgen Endalew'),
+    h('span', null, ' (LinkedIn)'),
+  );
 }
 
 function urgencyScore(p, now) {
