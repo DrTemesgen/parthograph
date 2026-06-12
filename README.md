@@ -84,6 +84,14 @@ See [docs/RESEARCH.md](docs/RESEARCH.md) for the full annotated evidence brief a
 5. Alignment with a future WHO SMART Guidelines intrapartum DAK (none exists yet — this project could inform it)
 6. Field usability study at pilot health centres (with MOH digital-health governance registration)
 
+## Get involved / implementation support
+
+📣 **This project is looking for collaborators and pilot partners.** If you are a health facility, ministry, NGO, researcher, midwife, obstetrician, or developer interested in **piloting, adapting, translating, or supporting the implementation** of Parthograph in Ethiopia (or elsewhere), please reach out:
+
+**Dr Temesgen Endalew** — [linkedin.com/in/dr-temesgen-endalew](https://www.linkedin.com/in/dr-temesgen-endalew/)
+
+Help is especially welcome with: clinical review of the alert thresholds, Amharic / Afaan Oromo / Tigrinya / Somali / Afar translation, field usability testing, and integration with national systems (DHIS2, OpenMRS/Bahmni).
+
 ## Contributing
 
 Issues and PRs welcome — especially from Ethiopian midwives, obstetricians, and digital-health implementers. Clinical-content changes require a citation (WHO/MOH document + page).
