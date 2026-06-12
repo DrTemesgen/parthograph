@@ -10,6 +10,29 @@ import { getProtocol } from '../protocol.js';
 import { evaluateObs, addAlerts } from '../alerts.js';
 import { showAlertAckModal } from '../wizard.js';
 
+// Country dial codes — Ethiopia (+251) first and default; neighbours and common
+// diaspora destinations follow. (Flag emoji show as country letters on Windows.)
+const COUNTRY_CODES = [
+  ['+251', '🇪🇹', 'Ethiopia'],
+  ['+254', '🇰🇪', 'Kenya'],
+  ['+252', '🇸🇴', 'Somalia'],
+  ['+291', '🇪🇷', 'Eritrea'],
+  ['+253', '🇩🇯', 'Djibouti'],
+  ['+211', '🇸🇸', 'South Sudan'],
+  ['+249', '🇸🇩', 'Sudan'],
+  ['+256', '🇺🇬', 'Uganda'],
+  ['+255', '🇹🇿', 'Tanzania'],
+  ['+250', '🇷🇼', 'Rwanda'],
+  ['+20', '🇪🇬', 'Egypt'],
+  ['+27', '🇿🇦', 'South Africa'],
+  ['+234', '🇳🇬', 'Nigeria'],
+  ['+971', '🇦🇪', 'UAE'],
+  ['+966', '🇸🇦', 'Saudi Arabia'],
+  ['+1', '🇺🇸', 'USA / Canada'],
+  ['+44', '🇬🇧', 'UK'],
+  ['+91', '🇮🇳', 'India'],
+];
+
 const RISK_FACTORS = [
   ['prior_cs', 'Previous caesarean section', true],
   ['grand_multi', 'Grand multipara (≥5 births)', false],
@@ -27,7 +50,7 @@ const RISK_FACTORS = [
 
 export function renderAdmission() {
   const m = {
-    name: '', age: null, mrn: '', phone: '', kebele: '',
+    name: '', age: null, mrn: '', phone: '', phoneCode: '+251', phoneNumber: '', kebele: '',
     gravida: null, para: null, gaWeeks: null,
     riskFactors: [],
     membranes: 'intact', romTime: null,
@@ -50,6 +73,21 @@ export function renderAdmission() {
     })),
   );
 
+  // Phone: country-code selector (Ethiopia default) + number; combined into m.phone.
+  function syncPhone() { m.phone = m.phoneNumber.trim() ? `${m.phoneCode} ${m.phoneNumber.trim()}` : ''; }
+  const phoneCodeSelect = h('select', {
+    style: 'flex:0 0 auto; width:auto; min-width:104px', 'aria-label': 'Country code',
+    onchange: e => { m.phoneCode = e.target.value; syncPhone(); },
+  }, COUNTRY_CODES.map(([code, flag, name]) => h('option', { value: code, title: name }, `${flag} ${code}`)));
+  phoneCodeSelect.value = m.phoneCode;
+  const phoneField = h('div', { style: 'display:flex; gap:8px' },
+    phoneCodeSelect,
+    h('input', {
+      type: 'tel', inputmode: 'tel', placeholder: '912 345 678', style: 'flex:1',
+      oninput: e => { m.phoneNumber = e.target.value; syncPhone(); },
+    }),
+  );
+
   const page = h('div', { class: 'page' },
     h('div', { class: 'card' },
       h('h2', null, '1 · ' + t('mother')),
@@ -57,7 +95,7 @@ export function renderAdmission() {
         field(t('name') + ' *', input('name')),
         field(t('age'), input('age', 'number', { min: 10, max: 60 })),
         field('MRN / card number', input('mrn')),
-        field('Phone', input('phone', 'tel')),
+        field('Phone', phoneField),
         field('Kebele / address', input('kebele')),
       ),
     ),
