@@ -57,7 +57,7 @@ export function renderSettings() {
 
     h('div', { class: 'card' },
       h('h2', null, 'ℹ About Parthograph'),
-      h('p', null, 'Open-source digital partograph / WHO Labour Care Guide for midwives at Ethiopian health centres. Offline-first: all data stays on this device.'),
+      h('p', null, 'Open-source digital partograph / WHO Labour Care Guide for midwives in resource-limited settings (customized for Ethiopia first). Offline-first: all data stays on this device.'),
       h('p', { class: 'muted', style: 'border-left:4px solid var(--c-warn);padding-left:10px' },
         'DISCLAIMER: This software is a decision-support and documentation aid for skilled birth attendants. It is not a certified medical device and does not replace clinical judgement, national protocols, or senior consultation. Pilot use must be approved by the responsible health authorities.'),
       h('p', { class: 'muted' }, 'Source & documentation: github.com — see README. Licensed MIT.'),

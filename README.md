@@ -1,4 +1,4 @@
-# 🤰 Parthograph — Digital Labour Care for Ethiopian Health Centres
+# 🤰 Parthograph — Digital Labour Care for Resource-Limited Settings
 
 **An offline-first, tablet-based digital partograph / WHO Labour Care Guide (2020) for midwives — with a guided entry wizard, automatic chart drawing, clinical alerts, referral decision support, APGAR scoring, and FHIR R4 export.**
 
@@ -8,9 +8,9 @@
 
 ## Why
 
-Partograph use in Ethiopia is chronically low — pooled utilization is only **~55–60%** across studies, and in the 2016 national EmONC census only **21.5%** of partographs met the WHO standard for complete recording. The strongest known drivers of proper use are refresher training (OR 5.7), form availability, supportive supervision, and being a midwife at a **health centre**. Meanwhile, field trials of electronic partographs (Jhpiego ePartogram in Kenya, mLabour in Tanzania, DAKSH in India) show that timed reminders, automatic graphing and threshold alerts improve observation compliance and even fetal outcomes — *if* the tool respects a busy midwife's reality.
+In resource-limited settings, partograph use is chronically low. In Ethiopia — the first deployment context — pooled utilization is only **~55–60%** across studies, and in the 2016 national EmONC census only **21.5%** of partographs met the WHO standard for complete recording. The strongest known drivers of proper use are refresher training (OR 5.7), form availability, supportive supervision, and being a midwife at a **health centre**. Meanwhile, field trials of electronic partographs (Jhpiego ePartogram in Kenya, mLabour in Tanzania, DAKSH in India) show that timed reminders, automatic graphing and threshold alerts improve observation compliance and even fetal outcomes — *if* the tool respects a busy midwife's reality.
 
-There is currently **no maintained, licensed, open-source implementation of the WHO Labour Care Guide 2020** anywhere on GitHub (verified June 2026). Parthograph aims to fill that gap, customized for Ethiopian health centres first.
+There is currently **no maintained, licensed, open-source implementation of the WHO Labour Care Guide 2020** anywhere on GitHub (verified June 2026). Parthograph aims to fill that gap — built for **resource-limited settings**, and customized for Ethiopian health centres as its first deployment.
 
 ## What it does
 
@@ -86,7 +86,7 @@ See [docs/RESEARCH.md](docs/RESEARCH.md) for the full annotated evidence brief a
 
 ## Get involved / implementation support
 
-📣 **This project is looking for collaborators and pilot partners.** If you are a health facility, ministry, NGO, researcher, midwife, obstetrician, or developer interested in **piloting, adapting, translating, or supporting the implementation** of Parthograph in Ethiopia (or elsewhere), please reach out:
+📣 **This project is looking for collaborators and pilot partners.** If you are a health facility, ministry, NGO, researcher, midwife, obstetrician, or developer interested in **piloting, adapting, translating, or supporting the implementation** of Parthograph in your setting — Ethiopia or any resource-limited context — please reach out:
 
 **Dr Temesgen Endalew** — [linkedin.com/in/dr-temesgen-endalew](https://www.linkedin.com/in/dr-temesgen-endalew/)
 
